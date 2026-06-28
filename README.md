@@ -50,10 +50,12 @@ The tool was tested against two real GitHub PRs:
 ### Validation
 
 ```bash
+python -m pip install -e . --no-deps
+claude-review --help
 python -m unittest discover -s tests
 python -m py_compile claude_review/cli.py claude_review/__init__.py tests/test_cli.py
 python -m claude_review.cli --pr https://github.com/python/cpython/pull/135000
-python -m claude_review.cli --pr https://github.com/cli/cli/pull/11703
+claude-review --pr https://github.com/cli/cli/pull/11703
 ```
 
 ### Notes

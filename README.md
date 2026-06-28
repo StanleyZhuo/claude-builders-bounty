@@ -2,6 +2,68 @@
 
 > A community bounty board for Claude Code builders.
 
+## Bounty #4 deliverable: `claude-review`
+
+This repository now includes a small Python CLI agent for
+[#4: PR reviewer with structured Markdown output](../../issues/4).
+
+`claude-review` accepts a GitHub pull request URL, fetches the public `.diff`
+for that PR, analyzes the changed files and line counts, and prints a
+structured Markdown review comment.
+
+### Setup
+
+```bash
+python -m pip install -e .
+```
+
+The tool has no third-party runtime dependencies.
+
+### Usage
+
+```bash
+claude-review --pr https://github.com/owner/repo/pull/123
+```
+
+You can also run it without installing the console script:
+
+```bash
+python -m claude_review.cli --pr https://github.com/owner/repo/pull/123
+```
+
+### Output format
+
+The generated Markdown includes:
+
+- Summary of changes
+- Identified risks
+- Improvement suggestions
+- Confidence score: Low / Medium / High
+
+### Sample outputs
+
+The tool was tested against two real GitHub PRs:
+
+- [`samples/pr-1-output.md`](samples/pr-1-output.md)
+- [`samples/pr-2-output.md`](samples/pr-2-output.md)
+
+### Validation
+
+```bash
+python -m unittest discover -s tests
+python -m py_compile claude_review/cli.py claude_review/__init__.py tests/test_cli.py
+python -m claude_review.cli --pr https://github.com/python/cpython/pull/135000
+python -m claude_review.cli --pr https://github.com/cli/cli/pull/11703
+```
+
+### Notes
+
+This is a lightweight diff-review agent. It uses structural heuristics and
+public diff metadata, so its output should complement a human review rather
+than replace one.
+
+---
+
 Building with Claude Code? Have tasks to delegate?
 Want to get paid for contributing to AI projects?
 You're in the right place.
